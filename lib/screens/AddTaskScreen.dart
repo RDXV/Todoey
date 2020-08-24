@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
 class AddTaskScreen extends StatelessWidget {
+  final Function addTask;
+
+  AddTaskScreen(this.addTask);
+
   @override
   Widget build(BuildContext context) {
+    String newTaskName;
+    // Everytime the app builds itself, the newTaskname will be created and used for input task
     return Container(
       color: Color(0xFF757575),
       child: Container(
@@ -29,11 +35,19 @@ class AddTaskScreen extends StatelessWidget {
               autofocus: true,
               textAlign: TextAlign.center,
               cursorColor: Colors.lightBlueAccent,
+              onChanged: (newString) {
+                newTaskName = newString;
+                // Changes everytime you type something so use it when pressed the ADD button
+              },
             ),
             FlatButton(
               color: Colors.lightBlueAccent,
               onPressed: () {
-                print('button pressed');
+                // print('button pressed');
+                // use function addTask
+                addTask(newTaskName);
+
+                // add task
               },
               child: Text(
                 'ADD',

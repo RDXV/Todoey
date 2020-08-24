@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey/models/task.dart';
 // import 'package:todoey/screens/addTaskScreen.dart';
 import 'package:todoey/widgets/TaskList.dart';
 import 'AddTaskScreen.dart';
+import 'package:todoey/models/taskData.dart';
 
 // Widget buildBottomSheet(BuildContext context) {
 //   return Container();
 // } 1
+
+// class TasksScreen extends StatefulWidget {
+//   @override
+//   _TasksScreenState createState() => _TasksScreenState();
+// }
 
 class TasksScreen extends StatelessWidget {
   @override
@@ -17,7 +25,19 @@ class TasksScreen extends StatelessWidget {
         child: Icon(Icons.add),
         onPressed: () {
           showModalBottomSheet(
-              context: context, builder: (context) => AddTaskScreen());
+              context: context,
+              builder: (context) => AddTaskScreen((newTitle) {
+                    // print(newTitle);
+
+                    // setState(() {
+                    //   tasks.add(Task(name: newTitle));
+                    // });
+                    Provider.of<TaskData>(context, listen: false)
+                        .newTask(newTitle);
+                    // listen:false added exclusively
+                    // the above adds a new task by using provider.of() method and calling the newTask() function
+                    Navigator.pop(context);
+                  }));
           // showModalBottomSheet(
           //     context: context, builder: (context) => Container());
           // same as 1
@@ -57,7 +77,7 @@ class TasksScreen extends StatelessWidget {
                   height: 5.0,
                 ),
                 Text(
-                  '5 tasks',
+                  '${Provider.of<TaskData>(context).taskCount} tasks',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
@@ -72,7 +92,7 @@ class TasksScreen extends StatelessWidget {
           Expanded(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 30.0),
-              child: TasksList(),
+
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -81,6 +101,7 @@ class TasksScreen extends StatelessWidget {
                 ),
               ),
               // color: Colors.white,
+              child: TasksList(),
               height: 300.0,
             ),
           ),
@@ -89,3 +110,4 @@ class TasksScreen extends StatelessWidget {
     );
   }
 }
+// In order to take the user input of the task and  print it or add it, make a callback of AddTask

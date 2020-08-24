@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:todoey/models/taskData.dart';
 // class TaskTile extends StatefulWidget {
 //   @override
 //   _TaskTileState createState() => _TaskTileState();
@@ -47,10 +47,16 @@ import 'package:flutter/material.dart';
 // }
 
 class TaskTile extends StatelessWidget {
-  final bool isChecked ;
+  final bool isChecked;
   final String taskTitle;
+  final Function checkboxCallback;
+  final Function longPressCallback;
 
-TaskTile({this.isChecked,this.taskTitle})
+  TaskTile(
+      {this.isChecked,
+      this.taskTitle,
+      this.checkboxCallback,
+      this.longPressCallback});
 
   // void checkBoxcallback(bool checkBoxState) {
   //   setState(() {
@@ -58,12 +64,12 @@ TaskTile({this.isChecked,this.taskTitle})
   //   });
   // }
 
- 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onLongPress: longPressCallback,
       title: Text(
-        'This is a task ',
+        taskTitle,
         style: TextStyle(
           decoration: isChecked ? TextDecoration.lineThrough : null,
         ),
@@ -71,7 +77,7 @@ TaskTile({this.isChecked,this.taskTitle})
       trailing: Checkbox(
         activeColor: Colors.lightBlueAccent,
         value: isChecked,
-        // onChanged: toggleCheckbox,
+        onChanged: checkboxCallback,
       ),
     );
   }
